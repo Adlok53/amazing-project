@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Style;
 use App\Actions\StyleActions;
 use App\Http\Middleware\CORS;
-use App\Http\Requests\StoreStyleRequest;
-use App\Http\Requests\UpdateStyleRequest;
+use App\Http\Requests\StyleRequest;
 use App\Http\Resources\Style\StyleResource;
 use Illuminate\Http\Response;
 
@@ -32,10 +31,10 @@ class StyleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\StoreStyleRequest  $request
+     * @param  App\Http\Requests\StyleRequest  $request
      * @return App\Http\Resources\Style\StyleResource
      */
-    public function store(StoreStyleRequest $request)
+    public function store(StyleRequest $request)
     {
         $data = $request->validated();
         $data['photo'] = StyleActions::save($data);
@@ -58,11 +57,11 @@ class StyleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\StyleRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateStyleRequest $request, Style $style)
+    public function update(StyleRequest $request, Style $style)
     {
         $data = $request->validated();
         $data['photo'] = StyleActions::update($data, $style);
