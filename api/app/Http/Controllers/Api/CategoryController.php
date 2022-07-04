@@ -10,6 +10,7 @@ use App\Http\Resources\Category\AllCategoriesResource;
 use App\Http\Resources\Category\CategoryStylesResource;
 use App\Models\Category;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
@@ -26,6 +27,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        Log::info("All categories have been sent");
+
         return AllCategoriesResource::collection(Category::all());
     }
 
@@ -40,6 +43,8 @@ class CategoryController extends Controller
         $category = Category::create($request->validated());
         CategoryActions::create($category);
 
+        Log::info("Added a new category with id: " . $category['id']);
+
         return new CategoryStylesResource($category);
     }
 
@@ -51,6 +56,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
+        Log::info("Category has been sent with id: " . $category['id']);
+
         return new CategoryStylesResource($category);
     }
 
@@ -65,6 +72,8 @@ class CategoryController extends Controller
     {
         $category->update($request->validated());
 
+        Log::info("Updated category with id: " . $category['id']);
+
         return new CategoryStylesResource($category);
     }
 
@@ -78,6 +87,8 @@ class CategoryController extends Controller
     {
         CategoryActions::delete($category);
         $category->delete();
+
+        Log::info("Removed category with id: " . $category['id']);
 
         return response()->json([
             "message" => "Category deleted",

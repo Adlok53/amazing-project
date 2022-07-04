@@ -9,6 +9,7 @@ use App\Http\Middleware\CORS;
 use App\Http\Requests\StyleRequest;
 use App\Http\Resources\Style\StyleResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class StyleController extends Controller
 {
@@ -40,6 +41,8 @@ class StyleController extends Controller
         $data['photo'] = StyleActions::save($data);
         $style = Style::create($data);
 
+        Log::info("Added a new style with id: " . $style['id']);
+
         return new StyleResource($style);
     }
 
@@ -51,6 +54,8 @@ class StyleController extends Controller
      */
     public function show(Style $style)
     {
+        Log::info("Style has been sent with id: " . $style['id']);
+
         return new StyleResource($style);
     }
 
@@ -67,6 +72,8 @@ class StyleController extends Controller
         $data['photo'] = StyleActions::update($data, $style);
         $style->update($data);
 
+        Log::info("Updated style with id: " . $style['id']);
+
         return new StyleResource($style);
     }
 
@@ -80,6 +87,8 @@ class StyleController extends Controller
     {
         StyleActions::delete($style);
         $style->delete();
+
+        Log::info("Removed style with id: " . $style['id']);
 
         return response()->json([
             "message" => "Style deleted",
